@@ -16,14 +16,22 @@ except NameError:
     def isstr(s):
         return isinstance(s, str)
 
-directory = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(directory)
+CURRENT_DIRECTORY    = os.path.dirname( os.path.realpath( __file__ ) )
+CURRENT_PACKAGE_NAME = os.path.basename( CURRENT_DIRECTORY ).rsplit( '.', 1 )[0]
+
+sys.path.append(CURRENT_DIRECTORY)
+
 
 from tinynumpy import tinynumpy
+g_print_numpy_import_error = False
 
 try:
     import numpy
 except ImportError:
+    numpy = tinynumpy
+    # g_print_numpy_import_error = True
+
+def numpy_import_error():
     print("=== NumPy disabled, using TinyNumPy instead ===")
     print("To enable cell evaluation using the full NumPy, download NumPy from:")
     print("    https://pypi.python.org/pypi/numpy")
@@ -31,7 +39,11 @@ except ImportError:
     print("For information on the features and limitations of TinyNumPy, visit:")
     print("    https://github.com/wadetb/tinynumpy")
     print("======================")
-    numpy = tinynumpy
+
+def plugin_loaded():
+
+    if g_print_numpy_import_error:
+        numpy_import_error()
 
 class SortDirection:
     Ascending = 1
@@ -102,7 +114,7 @@ class CSVMatrix:
                         self.delimiter = v
                         break
 
-        # Final priority: user or system setting, fallback to comma. 
+        # Final priority: user or system setting, fallback to comma.
         if not self.delimiter:
             self.delimiter = self.settings.get('delimiter', ',')
 
@@ -316,11 +328,11 @@ class CSVMatrix:
                             currentword += '""'
                         char_index += 2
                         continue
-                     
+
                     insidequotes = False
                     if not self.auto_quote:
                         currentword += char
-                        
+
                 else:
                     currentword += char
 
@@ -527,7 +539,7 @@ class CsvSetOutputCommand(sublime_plugin.TextCommand):
     def run(self, edit, **args):
         if 'output' in args:
             self.view.replace(edit, sublime.Region(0, self.view.size()), args['output']);
-        
+
         if 'saved_selection' in args:
             CSVMatrix.RestoreSelection(self.view, args['saved_selection'])
 
@@ -670,7 +682,7 @@ class CsvEvaluateCommand(sublime_plugin.TextCommand):
 
         self.view.replace(edit, sublime.Region(0, self.view.size()), output);
         matrix.RestoreSelection(self.view, saved_selection)
-        
+
 class CsvFormatCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         self.matrix = CSVMatrix.FromView(self.view)
@@ -683,12 +695,12 @@ class CsvFormatCommand(sublime_plugin.TextCommand):
 
     CELL_RE = re.compile(r'{\d+}')
 
-    def on_done(self, input):             
+    def on_done(self, input):
         output = ''
         numrows = len(self.matrix.rows)
         for rowindex, row in enumerate(self.matrix.rows):
             formatted_row = input
-            for columnindex, column in enumerate(row):                
+            for columnindex, column in enumerate(row):
                 formatted_row = formatted_row.replace('{' + str(columnindex) + '}', str(column.text))
             formatted_row = CsvFormatCommand.CELL_RE.sub('', formatted_row)
             output += formatted_row
