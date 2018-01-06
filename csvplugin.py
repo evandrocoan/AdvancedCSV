@@ -16,10 +16,10 @@ except NameError:
     def isstr(s):
         return isinstance(s, str)
 
-CURRENT_DIRECTORY    = os.path.dirname( os.path.realpath( __file__ ) )
-CURRENT_PACKAGE_NAME = os.path.basename( CURRENT_DIRECTORY ).rsplit( '.', 1 )[0]
+PACKAGE_ROOT_DIRECTORY = os.path.dirname( os.path.realpath( __file__ ) )
+CURRENT_PACKAGE_NAME = os.path.basename( PACKAGE_ROOT_DIRECTORY ).rsplit( '.', 1 )[0]
 
-sys.path.append(CURRENT_DIRECTORY)
+sys.path.append(PACKAGE_ROOT_DIRECTORY)
 
 
 from tinynumpy import tinynumpy
