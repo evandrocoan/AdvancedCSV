@@ -19,7 +19,7 @@ except NameError:
 sys.path.append(__package__)
 
 
-from tinynumpy import tinynumpy
+from .tinynumpy import tinynumpy
 g_print_numpy_import_error = False
 
 try:
