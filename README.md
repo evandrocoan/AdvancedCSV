@@ -4,13 +4,13 @@ A plugin to manage CSV files, forked from Eric Martel's Sublime-Text-2-CSV-Plugi
 
 It's often easiest to work with CSV data when the columns are properly lined up.  This plugin provides a command to line up all the columns using spaces (`Justify columns`) and to collapse them back again (`Collapse columns`).
 
-It also includes commands to insert and delete columns and to sort data by column, with or without a header row, and respecting numeric order and lexicographical order as appropriate.  
+It also includes commands to insert and delete columns and to sort data by column, with or without a header row, and respecting numeric order and lexicographical order as appropriate.
 
 An entire column may be block selected (`Select column`), which enables complex operations like quickly reordering, merging, adding & deleting multiple columns.
 
 The plugin includes a command to clean up empty trailing commas from rows, which are often left when opening a CSV file in Excel.
 
-Using NumPy (http://www.numpy.org), the plugin supports evaluating Python expressions over ranges of cells, in a manner similar to formulas in Excel. 
+Using NumPy (http://www.numpy.org), the plugin supports evaluating Python expressions over ranges of cells, in a manner similar to formulas in Excel.
 
 All the above features work in both justified and collapsed modes.
 
@@ -18,16 +18,27 @@ Finally, the plugin fully supports RFC 4180 (https://tools.ietf.org/html/rfc4180
 
 ## Install
 
-The files can be obtained on GitHub:
+## Installation
 
-    $ https://github.com/wadetb/Sublime-Text-Advanced-CSV
+### By Package Control
 
-Or via Package Control (https://sublime.wbond.net):
+1. Download & Install `Sublime Text 3` (https://www.sublimetext.com/3)
+1. Go to the menu `Tools -> Install Package Control`, then,
+   wait few seconds until the `Package Control` installation finishes
+1. Go to the menu `Preferences -> Package Control`
+1. Type `Package Control Add Channel` on the opened quick panel and press <kbd>Enter</kbd>
+1. Then, input the following address and press <kbd>Enter</kbd>
+   ```
+   https://raw.githubusercontent.com/evandrocoan/StudioChannel/master/channel.json
+   ```
+1. Now, go again to the menu `Preferences -> Package Control`
+1. This time type `Package Control Install Package` on the opened quick panel and press <kbd>Enter</kbd>
+1. Then, search for `AdvancedCSV` and press <kbd>Enter</kbd>
 
-1. Use the *Package Control: Install Package* command from the command palette.
-2. A list of packages will appear.  Type `Advanced CSV` and press enter.
+See also:
+1. [ITE - Integrated Toolset Environment](https://github.com/evandrocoan/ITE)
+1. [Package control docs](https://packagecontrol.io/docs/usage) for details.
 
-Using Package Control ensures that the Advanced CSV plugin stays up to date.
 
 ## Key bindings
 
@@ -61,7 +72,7 @@ The syntax for defining a range other than the formula cell is:
 
 `[<row_start>:<row_end>,<col_start>:<col_end>]=<python expression>`
 
-Updates a rectangular area of the document from `row_start` to `row_end` and from `col_start` to `col_end`.  If `row_start` or `col_start` is omitted, the range starts at the first row or column of the document.  
+Updates a rectangular area of the document from `row_start` to `row_end` and from `col_start` to `col_end`.  If `row_start` or `col_start` is omitted, the range starts at the first row or column of the document.
 
 If `row_end` or `col_end` is omitted, the range ends at the last row or column of the document of the document.  If both are omitted but the colon is included, the entire row are column is updated.  If both numbers and the colon are omitted, the range is the formula's row or column.
 
